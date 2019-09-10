@@ -1,0 +1,14 @@
+.filter-form {
+  background:#9c9d9d;
+  padding:30px;
+  display:flex;
+  margin:0 15px;
+  select {
+    appearance:none;
+    height:50px;
+    width:calc(50% - 15px);
+    margin:15px;
+    padding:0 15px;
+    font-size:18px;
+  }
+}
