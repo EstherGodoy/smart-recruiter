@@ -1,5 +1,6 @@
 import React from 'react';
-import Form from "./form/form"
+import Form from "./form"
+import Results from "./results"
 import './App.css';
 
 const API = 'https://api.smartrecruiters.com/v1/companies/TheSpringsLiving/postings';
@@ -17,8 +18,10 @@ class App extends React.Component {
     };
 
     this.onFilterChange = this.onFilterChange.bind(this);
+    this.updateSearchResults = this.updateSearchResults.bind(this);
 
   }
+
   onFilterChange(e){
     const SELECTED_VALUE = e.target.value;
     const SELECTED_TYPE = e.target.name
@@ -27,29 +30,76 @@ class App extends React.Component {
     let stateValue = (SELECTED_TYPE == 'location') ? 'locations' : 'jobTypes' ;
     let stateObj = (SELECTED_TYPE == 'location') ?   UPDATED_JOB_TYPES : UPDATED_LOCATIONS;
 
+    //check locations up against job types & update drop down selectors to correspond to available job listings
     Object.keys(stateObj).map(function(value, key) {
       (!stateObj[value].locations.includes(SELECTED_VALUE) && SELECTED_VALUE != 'all') ? stateObj[value].show = false : stateObj[value].show = true;
     })
+
     //update state
     this.setState({stateValue : stateObj});
 
-    // //check if job type is available at location, otherwise set as disabled
-    // if (SELECTED_TYPE == 'location') {
-    //
-    //   Object.keys(UPDATED_JOB_TYPES).map(function(value, key) {
-    //     (!UPDATED_JOB_TYPES[value].locations.includes(SELECTED_VALUE) && SELECTED_VALUE != 'all') ? UPDATED_JOB_TYPES[value].show = false : UPDATED_JOB_TYPES[value].show = true;
-    //   })
-    //   //update state
-    //   this.setState({jobTypes : UPDATED_JOB_TYPES});
-    // }
-    // //check if location is available within jobtype, otherwise set as disabled
+    this.updateSearchResults(SELECTED_VALUE, SELECTED_TYPE);
+  }
+
+  updateSearchResults(filterType, filterValue){
+    const ORIGINAL_DATA = this.state.smartRecruiterResults;
+
+    let enabledLocations = [];
+    let enabledJobTypes = [];
+    let locationFilterVal = document.getElementById('location-filter').value;
+    let jobFilterVal = document.getElementById('job-filter').value;
+    let currentLocations = this.state.locations;
+    let currentJobTypes = this.state.jobTypes;
+
+    if (locationFilterVal == 'all') {
+      Object.keys(currentLocations).map(function(value, key) {
+        if (currentLocations[value].show) {
+          enabledLocations.push(value);
+        }
+      })
+    }
+    else {
+      enabledLocations.push(locationFilterVal);
+    }
+
+    if (jobFilterVal == 'all') {
+      Object.keys(currentJobTypes).map(function(value, key) {
+        if (currentJobTypes[value].show) {
+          enabledJobTypes.push(value);
+        }
+      })
+    }
+    else {
+      enabledJobTypes.push(jobFilterVal);
+    }
+
+    let searchResults = [];
+    console.log(enabledLocations);
+    console.log(enabledJobTypes);
+    ORIGINAL_DATA.map(function(job) {
+      if (enabledJobTypes.includes(job.industry.label) && enabledLocations.includes(job.location.city)) {
+        searchResults.push(job);
+      }
+    })
+
+    this.setState({searchResults : searchResults});
+
+
     // else {
-    //   Object.keys(UPDATED_LOCATIONS).map(function(value, key) {
-    //     (!UPDATED_LOCATIONS[value].locations.includes(SELECTED_VALUE) && SELECTED_VALUE != 'all') ? UPDATED_LOCATIONS[value].show = false : UPDATED_LOCATIONS[value].show = true;
-    //   });
-    //   //update state
-    //   this.setState({locations : UPDATED_LOCATIONS});
+    //   enabledJobTypes.push(filterValue);
+    //
+    //   Object.keys(currentLocations).map(function(value, key) {
+    //     if (currentLocations[value].show && ) {
+    //       enabledLocations.push(value);
+    //     }
+    //   })
     // }
+    //
+    // console.log(enabledLocations);
+    // console.log(enabledJobTypes);
+
+    //loop through initial api call and select only the jobs with the selected values
+
   }
 
   componentDidMount() {
@@ -91,6 +141,7 @@ class App extends React.Component {
           })
 
           this.setState({jobTypes : jobTypes});
+          this.setState({searchResults : this.state.smartRecruiterResults}, () => console.log(this.state.searchResults));
         }
     )
   );
@@ -100,6 +151,7 @@ class App extends React.Component {
     return (
       <div className="App container">
         <Form locations={this.state.locations} jobTypes={this.state.jobTypes} filterChange={this.onFilterChange}/>
+        <Results searchResults={this.state.searchResults} testYO="wtf"/>
       </div>
     );
   }
