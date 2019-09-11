@@ -5,7 +5,7 @@ const Results = (props) => (
   <div className="search-results">
     <ul>
     {props.searchResults.map(function(job) {
-      return <li key={job.name + Math.random()}>{job.name} {job.location.city} {job.industry.label}</li>
+      return <li key={job.name + Math.random()}><h2>{job.name}</h2> <p>{job.typeOfEmployment.label} - {job.industry.label} -  {job.location.city}</p> <a href={job.ref} target="_blank">Apply Now</a></li>
     })}
     </ul>
   </div>
