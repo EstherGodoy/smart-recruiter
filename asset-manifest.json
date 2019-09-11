@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/smart-recruiter/static/css/main.b341216d.chunk.css",
+    "main.js": "/smart-recruiter/static/js/main.5d10f618.chunk.js",
+    "main.js.map": "/smart-recruiter/static/js/main.5d10f618.chunk.js.map",
+    "runtime~main.js": "/smart-recruiter/static/js/runtime~main.d6d5f692.js",
+    "runtime~main.js.map": "/smart-recruiter/static/js/runtime~main.d6d5f692.js.map",
+    "static/js/2.527a5cc2.chunk.js": "/smart-recruiter/static/js/2.527a5cc2.chunk.js",
+    "static/js/2.527a5cc2.chunk.js.map": "/smart-recruiter/static/js/2.527a5cc2.chunk.js.map",
+    "index.html": "/smart-recruiter/index.html",
+    "precache-manifest.394224e27ebd2d4d3a0ab51bb75ede26.js": "/smart-recruiter/precache-manifest.394224e27ebd2d4d3a0ab51bb75ede26.js",
+    "service-worker.js": "/smart-recruiter/service-worker.js",
+    "static/css/main.b341216d.chunk.css.map": "/smart-recruiter/static/css/main.b341216d.chunk.css.map"
+  }
+}
