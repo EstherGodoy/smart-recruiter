@@ -19,7 +19,6 @@ class App extends React.Component {
 
     this.onFilterChange = this.onFilterChange.bind(this);
     this.updateSearchResults = this.updateSearchResults.bind(this);
-
   }
 
   onFilterChange(e){
@@ -74,8 +73,7 @@ class App extends React.Component {
     }
 
     let searchResults = [];
-    console.log(enabledLocations);
-    console.log(enabledJobTypes);
+
     ORIGINAL_DATA.map(function(job) {
       if (enabledJobTypes.includes(job.industry.label) && enabledLocations.includes(job.location.city)) {
         searchResults.push(job);
@@ -83,23 +81,6 @@ class App extends React.Component {
     })
 
     this.setState({searchResults : searchResults});
-
-
-    // else {
-    //   enabledJobTypes.push(filterValue);
-    //
-    //   Object.keys(currentLocations).map(function(value, key) {
-    //     if (currentLocations[value].show && ) {
-    //       enabledLocations.push(value);
-    //     }
-    //   })
-    // }
-    //
-    // console.log(enabledLocations);
-    // console.log(enabledJobTypes);
-
-    //loop through initial api call and select only the jobs with the selected values
-
   }
 
   componentDidMount() {
